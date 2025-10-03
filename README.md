@@ -1,75 +1,80 @@
-# React + TypeScript + Vite
+# tp2 — Todo minimal (React + TypeScript + Vite)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Ce dépôt contient une petite application TODO écrite en React + TypeScript et packagée avec Vite.
 
-Currently, two official plugins are available:
+Objectifs principaux
+- Formulaire contrôlé avec validation (titre obligatoire, échéance >= aujourd'hui si renseignée).
+- Persistance locale via `localStorage` (clé `tp2:tasks`).
+- Accessibilité basique (labels, aria-*), performance pensée pour listes longues.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Prérequis
+- Node.js (>= 18 recommandé)
+- npm (ou yarn/pnpm si vous préférez, ajustez les commandes)
 
-## React Compiler
+Installation
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
-
-Note: This will impact Vite dev & build performances.
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
-
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
-
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+```powershell
+npm install
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+Scripts utiles
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- `npm run dev` — démarre le serveur de développement Vite (HMR)
+- `npm run build` — construit l'application (exécute `tsc -b` puis `vite build`)
+- `npm run lint` — lance ESLint sur le projet
+- `npm run preview` — prévisualise le build produit
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+Exécution en développement
+
+```powershell
+npm run dev
+# ouvrez http://localhost:5173 (ou le port affiché si 5173 est occupé)
 ```
+
+Structure importante
+
+- `src/main.tsx` — point d'entrée
+- `src/App.tsx` — conteneur principal et gestion d'état
+- `src/TodoForm.tsx` — formulaire contrôlé + validation
+- `src/TodoList.tsx` — liste des tâches (composant memoizé pour perf)
+- `src/types.ts` — types TypeScript partagés
+- `src/App.css` — styles globaux (thème clair minimal)
+
+Persistance
+- Les tâches sont sauvegardées dans `localStorage` sous la clé `tp2:tasks`.
+
+Bonnes pratiques Git (commits atomiques)
+
+Pour garder le dépôt propre et lisible, respectez les règles suivantes lors des commits :
+
+- Faites des commits atomiques : une seule fonctionnalité ou correction par commit.
+- Messages clairs et courts : commencez par un préfixe type `feat:`, `fix:`, `chore:`, `docs:` suivi d'une description brève.
+  - Exemple : `feat: add todo form validation`
+- Utilisez `git add -p` pour construire des commits précis lorsque vous avez modifié plusieurs endroits.
+- Regroupez les commits liés avant de pousser (rebase interactif) :
+
+```powershell
+git add -p
+git commit -m "feat: add todo form validation"
+git push origin main
+```
+
+Si vous devez nettoyer l'historique avant de pousser (réécriture locale), utilisez :
+
+```powershell
+# regrouper / éditer les derniers commits
+git rebase -i HEAD~3
+# puis forcer le push si nécessaire (seulement si vous comprenez les risques)
+git push --force-with-lease origin main
+```
+
+Contribuer
+- Ouvrez une issue ou une PR décrivant clairement la modification.
+- Gardez les changements petits et testables.
+
+Questions / extensions possibles
+- Ajouter des tests unitaires (Vitest), une modal custom pour la confirmation de suppression, ou la virtualisation de la liste (react-window) si vous gérez des milliers d'items.
+
+---
+
+Si vous voulez, je peux ajouter un `CONTRIBUTING.md` et un jeu minimal de tests pour la validation du formulaire.

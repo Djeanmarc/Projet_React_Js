@@ -1,19 +1,17 @@
 import { useState } from 'react'
 import type { Todo } from './types'
-
-type Props = {
-  onAdd: (t: Todo) => void
-}
+import { useTodos } from './TodoContext'
 
 const todayISO = () => new Date().toISOString().slice(0, 10)
 
-export default function TodoForm({ onAdd }: Props) {
+export default function TodoForm() {
   const [title, setTitle] = useState('')
   const [description, setDescription] = useState<string>('')
   const [dueDate, setDueDate] = useState<string>('')
   const [errors, setErrors] = useState<{ title?: string; dueDate?: string }>(
     {},
   )
+  const { addTodo } = useTodos()
 
   function validate() {
     const e: { title?: string; dueDate?: string } = {}
@@ -40,7 +38,7 @@ export default function TodoForm({ onAdd }: Props) {
       dueDate: dueDate || undefined,
       createdAt: new Date().toISOString(),
     }
-    onAdd(todo)
+  addTodo(todo)
     setTitle('')
     setDescription('')
     setDueDate('')

@@ -1,48 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useMemo } from 'react'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
 import TodoForm from './TodoForm'
 import TodoList from './TodoList'
-import type { Todo } from './types'
+import { TodoProvider, useTodos } from './TodoContext'
 
-const STORAGE_KEY = 'tp2:tasks'
-
-function loadTodos(): Todo[] {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return []
-    return JSON.parse(raw) as Todo[]
-  } catch {
-    return []
-  }
-}
-
-function saveTodos(todos: Todo[]) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(todos))
-}
-
-function App() {
-  const [todos, setTodos] = useState<Todo[]>(() => loadTodos())
-
-  useEffect(() => {
-    saveTodos(todos)
-  }, [todos])
-
-  function handleAdd(t: Todo) {
-    setTodos((s) => [t, ...s])
-  }
-
-  function handleDelete(id: string) {
-    setTodos((s) => s.filter((t) => t.id !== id))
-  }
-
-  function handleToggle(id: string, done: boolean) {
-    setTodos((s) => s.map((t) => (t.id === id ? { ...t, done } : t)))
-  }
-
-  const total = todos.length
-  const doneCount = todos.filter((t) => t.done).length
+function Content() {
+  const { todos } = useTodos()
+  const total = useMemo(() => todos.length, [todos])
+  const doneCount = useMemo(() => todos.filter((t) => t.done).length, [todos])
   const todoCount = total - doneCount
 
   return (
@@ -59,14 +26,22 @@ function App() {
       <h1>Todo minimal (React + Vite)</h1>
 
       <div className="card">
-        <TodoForm onAdd={handleAdd} />
+        <TodoForm />
       </div>
 
       <div className="card">
         <div className="summary">{`${todoCount} à faire / ${doneCount} faites`}</div>
-        <TodoList todos={todos} onDelete={handleDelete} onToggle={handleToggle} />
+        <TodoList />
       </div>
     </div>
+  )
+}
+
+function App() {
+  return (
+    <TodoProvider>
+      <Content />
+    </TodoProvider>
   )
 }
 

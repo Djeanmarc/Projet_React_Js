@@ -40,3 +40,81 @@
 .read-the-docs {
   color: #888;
 }
+
+/* Todo styles */
+.field {
+  margin-bottom: 1rem;
+  text-align: left;
+  max-width: 480px;
+  margin-left: auto;
+  margin-right: auto;
+}
+.field label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+.field input[type='text'],
+.field input[type='date'],
+.field input {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+.field .error {
+  color: #9b1c1c;
+  margin-top: 0.25rem;
+}
+.field input[aria-invalid="true"] {
+  border-color: #c62828;
+  box-shadow: 0 0 0 3px #ffdede55;
+}
+.actions {
+  text-align: center;
+}
+.actions button {
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  border: none;
+  background: #646cff;
+  color: white;
+}
+.todo-list {
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 640px;
+}
+.todo-item {
+  display: flex;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: 0.75rem;
+  border-bottom: 1px solid #eee;
+  align-items: center;
+}
+.todo-title {
+  font-weight: 600;
+}
+.todo-actions button {
+  background: transparent;
+  color: #c62828;
+  border: 1px solid #f3caca;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+}
+
+.todo-desc {
+  color: #555;
+  font-size: 0.95rem;
+}
+.todo-title.done {
+  text-decoration: line-through;
+  color: #666;
+}
+.summary {
+  margin-bottom: 0.75rem;
+  font-weight: 600;
+}
+
